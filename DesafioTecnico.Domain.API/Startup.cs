@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using DesafioTecnico.Domain.API.DependencyInjection;
+using Microsoft.OpenApi.Models;
 
 namespace DesafioTecnico.Domain.API
 {
@@ -19,13 +20,21 @@ namespace DesafioTecnico.Domain.API
         {
             services.AddControllers();
             DependencyInjector.InjectDependencies(services);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Desafio Tecnico", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
+            {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Desafio Tecnico v1"));
+            }
 
             app.UseHttpsRedirection();
             app.UseRouting();
