@@ -1,4 +1,3 @@
-
 DesafioTecnico.Domain/bin/
 
 DesafioTecnico.Domain/obj/
@@ -11,4 +10,9 @@ DesafioTecnico.Domain.Infra/bin/
 
 DesafioTecnico.Domain.Infra/obj/
 
+DesafioTecnico.Domain.Tests/bin/
+
+DesafioTecnico.Domain.Tests/obj/
+
 .vscode/
+
