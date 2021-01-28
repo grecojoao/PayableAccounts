@@ -12,18 +12,16 @@ namespace DesafioTecnico.Domain.API.Controllers
     [Route("v1/[controller]")]
     public class PayableAccountController : ControllerBase
     {
-        [Route("PayableAccountCreate")]
         [HttpPost]
-        public async Task<CommandResult> PayableAccountCreate(
+        public async Task<CommandResult> Post(
             [FromBody] PayableAccountCreateCommand command,
             [FromServices] IMediator mediator)
         {
             return (CommandResult)await mediator.Send(command);
         }
 
-        [Route("PaidAccounts")]
         [HttpGet]
-        public async Task<CommandResult> PaidAccounts([FromServices] IPaidAccountRepository paidAccountRepository)
+        public async Task<CommandResult> Get([FromServices] IPaidAccountRepository paidAccountRepository)
         {
             var paidAccounts = await paidAccountRepository.GetAsync(default);
             var paidAccountsDTO = (from paidAccount in paidAccounts
