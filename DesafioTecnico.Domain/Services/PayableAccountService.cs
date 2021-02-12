@@ -22,14 +22,14 @@ namespace DesafioTecnico.Domain.Services
                 return new PaidAccount(payableAccount.Id, payDay, 0, payableAccount.Value);
             var delayedDays = (payDay.Date - ((DateTime)payableAccount.DueDate).Date).Days;
             var paymentRules = (await _paymentRuleRepository.GetAsync(cancellationToken)).OrderBy(rule => rule.DelayedDays);
-            var amountPaid = CalcularValorPago(payableAccount.Value, delayedDays, paymentRules);
+            var amountPaid = CalculateAmountPaid(payableAccount.Value, delayedDays, paymentRules);
             return new PaidAccount(payableAccount.Id, payDay, delayedDays, amountPaid);
         }
 
         private bool PaidAfterTheDueDate(DateTime payDay, DateTime dueDate) =>
             DateTime.Compare(payDay, dueDate) > 0;
 
-        private decimal CalcularValorPago(decimal originalPayableAmount, int delayedDays, IEnumerable<PaymentRule> paymentRules)
+        private decimal CalculateAmountPaid(decimal originalPayableAmount, int delayedDays, IEnumerable<PaymentRule> paymentRules)
         {
             decimal amountPaid = 0;
             foreach (var paymentRule in paymentRules)
